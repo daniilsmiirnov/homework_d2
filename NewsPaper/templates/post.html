@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1>{{ posts.heading|Censor }}</h1>
+<hr>
+<h3 align=justify>{{posts.text_Post|Censor}}</h3>
+<h3 align=left>Рейтинг: {{posts.rating_Post}}</h3>
+<h3 align=left>Дата создания: {{posts.date|date:'d.m.Y h:m'}}</h3>
+{% endblock content %}
