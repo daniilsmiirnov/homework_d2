@@ -9,6 +9,11 @@ News
 {% block content %}
 <h1>Все новости:</h1>
 <hr>
+<form method="GET">
+    {{ filter.form }}
+    <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самим -->
+    <input class="btn btn-primary" type="submit" value="Найти">
+ </form>
 {% if news %}
     <table>
         <tr>
@@ -21,22 +26,37 @@ News
             <td>
                 <h2>Дата</h2>
             </td>   
+            <td>
+                <h2>Действия</h2>
+            </td>   
         </tr>
     {% for n in news %} <!-- Для каждого товара будете генерироваться новая строчка, т.е. новый html код. При этом сам цикл работает точно так же, как и в python. product — переменная цикла, т.е. наш товар, взятый из общего списка -->
         <tr>
             <td>
-                <h3>{{ n.heading|Censor}}</h3><!-- не забываем, что переменные в шаблоне ничем не отличаются от переменных в python. Здесь так же можно получать доступ к полям класса. Например, здесь мы выводим имя, в следующем столбце описание, и т.д.  -->
+                <a href="{% url 'news_detail' n.id %}">{{ n.heading|Censor}}</a><!-- не забываем, что переменные в шаблоне ничем не отличаются от переменных в python. Здесь так же можно получать доступ к полям класса. Например, здесь мы выводим имя, в следующем столбце описание, и т.д.  -->
             </td>
             <td>
                 <h3>{{ n.text_Post|Censor|truncatechars:50}} </h3>
             </td>   
             <td>
                 <h6 > {{ n.date|date:'d-m-Y h:m' }} </h6>
-            </td>                         
+            </td>    
+            <td> 
+            <a href="{% url 'edit_post_form' n.id %}">
+                Update
+            </a>
+            <a href="{% url 'delete_post_form' n.id %}">
+                Delete
+            </a>     
+            </td>                
         </tr>
     {% endfor %}
     </table>
+    {% include  'parts/pagginator.html' %}
     {% else %}
     <h2>Новостей нет!</h2>
 {% endif %}
+<form action='add/' target="_blank">
+    <input class="btn btn-success" href="{% url 'news_create' %}" type="submit" value="Add">
+</form>
 {% endblock content %}

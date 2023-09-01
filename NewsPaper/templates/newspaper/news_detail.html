@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} News details {% endblock title %}
+{% load custom_filters %}
+{% block content %}
+
+<table>
+        <tr>
+            <td valign="top" align="center"><b>№ поста</b></td>
+            <td align="center"><b>Заголовок<p></b></td>
+            <td align="center"><b>Дата публикации</b></td>
+            <td align="center"><b>Описание </b></td>
+        </tr>
+    <tr>
+        <td align="center">{{ new.id }}</td>
+        <td>{{ new.heading }}</td>
+        <td align="center">{{ new.date|default:"Без даты"|date:'d.m.Y' }}</td>
+        <td>{{ new.text_Post }}</td>
+    </tr>
+</table>
+
+{% endblock content %}

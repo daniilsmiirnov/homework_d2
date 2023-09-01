@@ -44,8 +44,9 @@ class Post(models.Model):
         self.save()
     def preview(self):
         return self.text_Post[0:124] + '...'
-        
-        
+    def get_absolute_url(self): # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+       return f'/news/{self.id}'
+    
     
     
 class PostCategory(models.Model):
