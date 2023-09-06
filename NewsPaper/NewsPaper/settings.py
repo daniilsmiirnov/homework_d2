@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-x@ro1k8#u9+1=r_h(3d0by9@g7$29(uq9*+u6q#2fp8gtau5wn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1'] # 1
 
 # Application definition
 
@@ -42,8 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+   # ... здесь нужно указать провайдеры, которые планируете использовать
+    'allauth.socialaccount.providers.google',
+   
     'news',
-    'django_filters'
+    'django_filters',
+    'sign',
+    'protect'
     
 ]
 
@@ -75,14 +82,26 @@ TEMPLATES = [
         },
     },
 ]
-
+AUTHENTICATION_BACKENDS = [
+   # Needed to login by username in Django admin, regardless of `allauth`
+   'django.contrib.auth.backends.ModelBackend',
+  
+   # `allauth` specific authentication methods, such as login by e-mail
+   'allauth.account.auth_backends.AuthenticationBackend',
+]
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
-
-
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+DATABASES = {   
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',

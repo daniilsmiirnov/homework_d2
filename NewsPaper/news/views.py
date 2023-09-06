@@ -7,6 +7,7 @@ from datetime import datetime
 from .filters import NewsFilter
 from .forms import NewsForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 
 class NewsList (ListView):
     model = Post
@@ -32,10 +33,11 @@ class NewsDetailView(DetailView):
    template_name = 'newspaper/news_detail.html'
    queryset = Post.objects.all()
 
-class NewsCreateView(CreateView):
+class NewsCreateView(CreateView,PermissionRequiredMixin):
    template_name = 'newspaper/news_create.html'
    form_class = NewsForm
-class NewsUpdateView(UpdateView):
+   permission_required = ('news.add_post', )
+class NewsUpdateView(LoginRequiredMixin,UpdateView,PermissionRequiredMixin):
     model = Post
     context_object_name = 'edit_post_form'
     template_name = 'newspaper/news_create.html'
@@ -45,14 +47,16 @@ class NewsUpdateView(UpdateView):
        id = self.kwargs.get('pk')
        return Post.objects.get(pk=id)
     #success_url = reverse_lazy(viewname='post_list')
+    permission_required = ('news.change_post', )
 # удаление поста
-class NewsDeleteView(DeleteView):
+class NewsDeleteView(DeleteView,PermissionRequiredMixin):
     model = Post
     context_object_name = 'delete_post_form'
     template_name = 'newspaper/news_delete.html'
     queryset = Post.objects.all()
     #fields = ('header', 'post_date')
     success_url = reverse_lazy('news')
+    permission_required = ('news.delete_post', )
 class PostList(DetailView):
     model = Post
     template_name= 'post.html'
