@@ -1,0 +1,24 @@
+[2023-09-12 14:57:01,923] * [ERROR] Internal Server Error: /news/make_app/ D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\utils\log.py (<class 'ValueError'>, ValueError("time data '' does not match format '%Y-%m-%d'"), <traceback object at 0x000002949386D640>)
+Traceback (most recent call last):
+  File "D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Skillbox\module d\homework_d2\newspaper\news\views.py", line 133, in post
+    date=datetime.strptime(request.POST['date'], '%Y-%m-%d'),
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '' does not match format '%Y-%m-%d'
+[2023-09-12 14:57:01,942] * [ERROR] "POST /news/make_app/ HTTP/1.1" 500 98173 D:\Skillbox\module d\homework_d2\venv\Lib\site-packages\django\core\servers\basehttp.py None
