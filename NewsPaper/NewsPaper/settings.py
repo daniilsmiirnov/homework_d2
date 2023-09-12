@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,11 +49,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
    # ... здесь нужно указать провайдеры, которые планируете использовать
     'allauth.socialaccount.providers.google',
-   
-    'news',
+    
+
+    #'django_apscheduler',
+    'news.apps.NewsConfig',
     'django_filters',
     'sign',
-    'protect'
+    'protect',
+    'appointments',
+    'django_apscheduler'
     
 ]
 
@@ -139,10 +146,19 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+EMAIL_HOST = 'smtp.yandex.ru' # адрес сервера Яндекс-почты для всех один и тот же
+EMAIL_PORT = 465 # порт smtp сервера тоже одинаковый
+EMAIL_HOST_USER = os.getenv('USER') # ваше имя пользователя, например если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_PASSWORD = os.getenv('PASSWORD') # пароль от почты
+EMAIL_USE_SSL = True # Яндекс использует ssl, подробнее о том, что это, почитайте на Википедии, но включать его здесь обязательно
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+DEFAULT_FROM_EMAIL= os.getenv('MAIL')
+# формат даты, которую будет воспринимать наш задачник(вспоминаем урок по фильтрам) 
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+ 
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 STATIC_URL = 'static/'
 
 # Default primary key field type
